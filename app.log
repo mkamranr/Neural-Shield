@@ -1,0 +1,11 @@
+nohup: ignoring input
+/tmp/.venv/lib/python3.12/site-packages/scapy/layers/ipsec.py:512: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  cipher=algorithms.TripleDES,
+/tmp/.venv/lib/python3.12/site-packages/scapy/layers/ipsec.py:516: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  cipher=algorithms.TripleDES,
+INFO:     Started server process [550]
+INFO:     Waiting for application startup.
+2026-01-12 13:16:31,680 - app.main - INFO - Starting NeuralShield...
+2026-01-12 13:16:31,702 - app.main - INFO - NeuralShield started successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

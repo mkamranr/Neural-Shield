@@ -1,0 +1,52 @@
+nohup: ignoring input
+INFO:     Started server process [505]
+INFO:     Waiting for application startup.
+2026-01-12 13:37:13,892 - app.main - INFO - Starting NeuralShield...
+2026-01-12 13:37:13,916 - app.main - INFO - NeuralShield started successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5000 (Press CTRL+C to quit)
+Database initialized at sqlite:////workspace/NeuralShield/data/neuralshield.db
+INFO:     127.0.0.1:52218 - "GET / HTTP/1.1" 200 OK
+2026-01-12 13:37:54,757 - app.detector - INFO - ML model loaded from /workspace/NeuralShield/models/random_forest.pkl
+INFO:     127.0.0.1:52218 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52220 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52234 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39810 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40862 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40850 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /threats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40862 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /firewall HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46720 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46720 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46720 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:46720 - "GET /settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46720 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40850 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/system/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40850 - "GET /api/threats/stats/summary HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:46720 - "GET /api/threats?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46720 - "GET /api/firewall/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59920 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59922 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59928 - "GET /api/sniffer/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59932 - "GET /api/system/stats HTTP/1.1" 200 OK

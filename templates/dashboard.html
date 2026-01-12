@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends "base.html" %}
+
+{% block title %}NeuralShield - Dashboard{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-2xl font-bold">{{ title }}</h1>
+            <p class="text-gray-400 mt-1">Real-time cyber threat detection and prevention</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-400">Sniffer:</span>
+                <span id="snifferStatus" class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-400">Stopped</span>
+            </div>
+            <button id="toggleSniffer" class="btn btn-success" onclick="toggleSniffer()">
+                Start Monitoring
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">Packets Analyzed</p>
+                    <p id="packetCount" class="text-3xl font-bold mt-1 mono">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <span id="ppsDisplay" class="text-sm text-green-400 mono">0 pps</span>
+                <span class="text-gray-500">packets/sec</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">Threats Detected</p>
+                    <p id="threatCount" class="text-3xl font-bold mt-1 mono">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <span id="threatRate" class="text-sm text-red-400 mono">0/hr</span>
+                <span class="text-gray-500">last hour</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">IPs Blocked</p>
+                    <p id="blockedCount" class="text-3xl font-bold mt-1 mono">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <span class="text-sm text-yellow-400 mono">Active</span>
+                <span class="text-gray-500">firewall rules</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">System Load</p>
+                    <p id="cpuUsage" class="text-3xl font-bold mt-1 mono">0%</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <span id="memoryUsage" class="text-sm text-purple-400 mono">0%</span>
+                <span class="text-gray-500">memory used</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="card">
+            <h3 class="text-lg font-semibold mb-4">Traffic Overview</h3>
+            <canvas id="trafficChart" height="200"></canvas>
+        </div>
+        <div class="card">
+            <h3 class="text-lg font-semibold mb-4">Threat Distribution</h3>
+            <canvas id="threatChart" height="200"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold">Live Threat Feed</h3>
+            <div class="flex items-center gap-2">
+                <span class="status-indicator status-active animate-pulse"></span>
+                <span class="text-sm text-gray-400">Live</span>
+            </div>
+        </div>
+        
+        <div class="table-container scrollbar-thin">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Source IP</th>
+                        <th>Destination</th>
+                        <th>Protocol</th>
+                        <th>Attack Type</th>
+                        <th>Confidence</th>
+                        <th>Severity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="threatTable">
+                    <tr>
+                        <td colspan="8" class="text-center text-gray-400 py-8">No threats detected yet. Start the sniffer to begin monitoring.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let trafficChart, threatChart;
+    let snifferRunning = false;
+    
+    function initCharts() {
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        trafficChart = new Chart(trafficCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'TCP',
+                    data: [],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true
+                }, {
+                    label: 'UDP',
+                    data: [],
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: true
+                }, {
+                    label: 'ICMP',
+                    data: [],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: '#334155' }
+                    },
+                    y: {
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: '#334155' }
+                    }
+                }
+            }
+        });
+        
+        const threatCtx = document.getElementById('threatChart').getContext('2d');
+        threatChart = new Chart(threatCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['SQL Injection', 'XSS', 'Anomaly', 'Rate Based', 'Other'],
+                datasets: [{
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: ['#ef4444', '#eab308', '#3b82f6', '#a855f7', '#6b7280']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+    }
+    
+    async function toggleSniffer() {
+        const endpoint = snifferRunning ? '/api/sniffer/stop' : '/api/sniffer/start';
+        const response = await fetch(API_BASE + endpoint, { method: 'POST' });
+        const result = await response.json();
+        
+        snifferRunning = !snifferRunning;
+        updateSnifferUI();
+    }
+    
+    function updateSnifferUI() {
+        const statusEl = document.getElementById('snifferStatus');
+        const btn = document.getElementById('toggleSniffer');
+        
+        if (snifferRunning) {
+            statusEl.className = 'px-3 py-1 rounded-full text-sm font-medium bg-green-500/20 text-green-400';
+            statusEl.textContent = 'Running';
+            btn.className = 'btn btn-danger';
+            btn.textContent = 'Stop Monitoring';
+        } else {
+            statusEl.className = 'px-3 py-1 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-400';
+            statusEl.textContent = 'Stopped';
+            btn.className = 'btn btn-success';
+            btn.textContent = 'Start Monitoring';
+        }
+    }
+    
+    async function updateStats() {
+        const stats = await fetchAPI('/api/sniffer/status');
+        const sysStats = await fetchAPI('/api/system/stats');
+        const threatStats = await fetchAPI('/api/threats/stats/summary');
+        
+        if (stats) {
+            document.getElementById('packetCount').textContent = stats.packet_count.toLocaleString();
+            document.getElementById('ppsDisplay').textContent = stats.packets_per_second.toFixed(1) + ' pps';
+        }
+        
+        if (sysStats) {
+            document.getElementById('cpuUsage').textContent = sysStats.cpu_percent.toFixed(1) + '%';
+            document.getElementById('memoryUsage').textContent = sysStats.memory_percent.toFixed(1) + '%';
+        }
+        
+        if (threatStats) {
+            document.getElementById('threatCount').textContent = 
+                (threatStats.by_severity.high + threatStats.by_severity.critical).toLocaleString();
+            document.getElementById('threatRate').textContent = threatStats.last_hour + '/hr';
+            document.getElementById('blockedCount').textContent = 
+                (threatStats.by_type['RATE_BASED'] || 0).toLocaleString();
+            
+            threatChart.data.datasets[0].data = [
+                threatStats.by_type['sql_injection'] || 0,
+                threatStats.by_type['xss'] || 0,
+                threatStats.by_type['ANOMALY'] || 0,
+                threatStats.by_type['RATE_BASED'] || 0,
+                threatStats.by_type['Other'] || 0
+            ];
+            threatChart.update();
+        }
+    }
+    
+    async function updateThreatTable() {
+        const threats = await fetchAPI('/api/threats?limit=10');
+        const tbody = document.getElementById('threatTable');
+        
+        if (threats && threats.threats.length > 0) {
+            tbody.innerHTML = threats.threats.map(threat => `
+                <tr class="hover:bg-gray-700/50">
+                    <td class="mono text-sm">${formatDate(threat.timestamp)}</td>
+                    <td class="mono text-sm">${threat.source_ip}</td>
+                    <td class="mono text-sm">${threat.destination_ip}:${threat.destination_port}</td>
+                    <td>${threat.protocol}</td>
+                    <td class="capitalize">${threat.attack_type.replace('_', ' ')}</td>
+                    <td class="mono">${(threat.confidence * 100).toFixed(1)}%</td>
+                    <td><span class="severity-${threat.severity.toLowerCase()}">${threat.severity}</span></td>
+                    <td>
+                        ${threat.blocked ? 
+                            '<span class="text-red-400">Blocked</span>' : 
+                            '<span class="text-yellow-400">Alert</span>'
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        initCharts();
+        updateStats();
+        updateThreatTable();
+        
+        const path = window.location.pathname;
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === path) {
+                item.classList.add('active');
+            }
+        });
+    });
+    
+    setInterval(() => {
+        updateStats();
+        if (snifferRunning) {
+            updateThreatTable();
+        }
+    }, 2000);
+</script>
+{% endblock %}
